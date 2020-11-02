@@ -40,29 +40,21 @@
       :title="selectedjob.company + ' - ' + selectedjob.title"
     >
       <div v-for="apply in job_apply" v-bind:key="apply.email">
-        <md-card v-if="apply.job == selectedjob.id">
-          <md-card-header>
-            <div class="md-title">{{ apply.email }}</div>
-            <div class="md-subhead">Subtitle here</div>
-          </md-card-header>
-
-          <md-card-expand>
-            <md-card-actions md-alignment="space-between">
-              <md-card-expand-trigger>
-                <md-button>Learn more</md-button>
-              </md-card-expand-trigger>
-            </md-card-actions>
-
-            <md-card-expand-content>
-              <md-card-content>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio
-                itaque ea, nostrum odio. Dolores, sed accusantium quasi non,
-                voluptas eius illo quas, saepe voluptate pariatur in deleniti
-                minus sint. Excepturi.
-              </md-card-content>
-            </md-card-expand-content>
-          </md-card-expand>
-        </md-card>
+        <div v-for="user in users" v-bind:key="user.email">
+          <div v-if="apply.job == selectedjob.id">
+            <b-card v-if="apply.email == user.email" :title="user.name">
+              <b-button v-b-toggle.collapse-1 variant="outline-info"
+                >View user</b-button
+              >
+              <b-collapse id="collapse-1" class="mt-2">
+                <b-card>
+                  <!-- CV user info here -->
+                </b-card>
+              </b-collapse>
+            </b-card>
+          </div>
+          <br />
+        </div>
       </div>
     </b-modal>
 
