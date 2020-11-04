@@ -107,7 +107,7 @@
 
       <br />
       <b-button variant="outline-success">
-        Edit Post
+        Edit Job
       </b-button>
     </b-modal>
   </div>
