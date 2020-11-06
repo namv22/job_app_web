@@ -1,67 +1,61 @@
 <template>
   <div id="app">
-    <md-table md-card class="container-fluid md-elevation-12">
-      <md-table-row align="left">
-        <md-table-head>Company</md-table-head>
-        <md-table-head>Position</md-table-head>
-        <md-table-head>Description</md-table-head>
-        <md-table-head>Salary</md-table-head>
-      </md-table-row>
+    <b-card
+      border-variant="info"
+      header="Posts"
+      align="center"
+      class="container-fluid md-elevation-12"
+    >
+      <md-table md-card class="container-fluid md-elevation-12">
+        <md-table-row align="left">
+          <md-table-head>Company</md-table-head>
+          <md-table-head>Position</md-table-head>
+          <md-table-head>Description</md-table-head>
+          <md-table-head>Salary</md-table-head>
+        </md-table-row>
 
-      <md-table-row v-for="job in orderedjobs" v-bind:key="job.id" align="left">
-        <md-table-cell>{{ job.company }}</md-table-cell>
-        <md-table-cell>{{ job.title }}</md-table-cell>
-        <md-table-cell>{{ job.description }}</md-table-cell>
-        <md-table-cell>{{ job.salary }}</md-table-cell>
-        <md-table-cell>
-          <b-button
-            variant="outline-info"
-            @click="sendInfo(job)"
-            v-b-modal.modal-xl="'job'"
-            >List Applicants</b-button
-          >
-          &nbsp;
-          <b-button
-            variant="outline-primary"
-            @click="sendInfo(job)"
-            v-b-modal.modal-xl="'edit'"
-            >Edit</b-button
-          >
-          &nbsp;
-          <b-button variant="outline-danger" @click="deletejob(job)">
-            Remove
-          </b-button>
-        </md-table-cell>
-      </md-table-row>
-    </md-table>
+        <md-table-row
+          v-for="post in orderedPosts"
+          v-bind:key="post.name"
+          align="left"
+        >
+          <md-table-cell>{{ post.company }}</md-table-cell>
+          <md-table-cell>{{ post.title }}</md-table-cell>
+          <md-table-cell>{{ post.description }}</md-table-cell>
+          <md-table-cell>{{ post.salary }}</md-table-cell>
+          <md-table-cell>
+            <b-button
+              variant="outline-info"
+              @click="sendInfo(post)"
+              v-b-modal.modal-xl="'job'"
+              >Information</b-button
+            >
+            &nbsp;
+            <b-button
+              variant="outline-primary"
+              @click="sendInfo(post)"
+              v-b-modal.modal-xl="'edit'"
+              >Edit</b-button
+            >
+            &nbsp;
+            <b-button variant="outline-danger" @click="deletePost(post)">
+              Remove
+            </b-button>
+          </md-table-cell>
+        </md-table-row>
+      </md-table>
+    </b-card>
     <b-modal
       size="xl"
       id="job"
-      :title="selectedjob.company + ' - ' + selectedjob.title"
+      :title="selectedPost.company + ' - ' + selectedPost.title"
     >
-      <div v-for="apply in job_apply" v-bind:key="apply.email">
-        <div v-for="user in users" v-bind:key="user.email">
-          <div v-if="apply.job == selectedjob.id">
-            <b-card v-if="apply.email == user.email" :title="user.name">
-              <b-button v-b-toggle.collapse-1 variant="outline-info"
-                >View user</b-button
-              >
-              <b-collapse id="collapse-1" class="mt-2">
-                <b-card>
-                  <!-- CV user info here -->
-                </b-card>
-              </b-collapse>
-            </b-card>
-          </div>
-          <br />
-        </div>
-      </div>
+      <p></p>
     </b-modal>
-
     <b-modal
       size="xl"
       id="edit"
-      :title="selectedjob.company + ' - ' + selectedjob.title"
+      :title="selectedPost.company + ' - ' + selectedPost.title"
     >
       <label for="input-live">Job ID</label>
       <b-form-input
@@ -70,7 +64,7 @@
         v-model="newJobid"
         aria-describedby="input-live-help input-live-feedback"
         trim
-        :value="selectedjob.id"
+        :value="selectedPost.id"
       ></b-form-input>
 
       <label for="input-live">Title</label>
@@ -79,7 +73,7 @@
         size="20"
         v-model="newTitle"
         aria-describedby="input-live-help input-live-feedback"
-        :value="selectedjob.title"
+        :value="selectedPost.title"
       ></b-form-input>
 
       <label for="input-live">Company</label>
@@ -88,7 +82,7 @@
         size="20"
         v-model="newCompany"
         aria-describedby="input-live-help input-live-feedback"
-        :value="selectedjob.company"
+        :value="selectedPost.company"
       ></b-form-input>
 
       <label for="input-live">Description</label>
@@ -97,7 +91,7 @@
         size="20"
         v-model="newDescription"
         aria-describedby="input-live-help input-live-feedback"
-        :value="selectedjob.description"
+        :value="selectedPost.description"
       ></b-form-textarea>
 
       <label for="input-live">Salary</label>
@@ -108,16 +102,14 @@
         v-model="newSalary"
         aria-describedby="input-live-help input-live-feedback"
         trim
-        :value="selectedjob.salary"
+        :value="selectedPost.salary"
       ></b-form-input>
 
       <br />
       <b-button variant="outline-success">
-        Edit job
+        Edit Job
       </b-button>
     </b-modal>
-
-    <br />
   </div>
 </template>
 
@@ -128,16 +120,14 @@ import _ from "lodash";
 export default {
   name: "TableCard",
   computed: {
-    orderedjobs: function() {
-      return _.orderBy(this.jobs, ["created"], ["desc"]);
+    orderedPosts: function() {
+      return _.orderBy(this.posts, ["created"], ["desc"]);
     },
   },
   data() {
     return {
-      jobs: [],
-      job_apply: [],
-      users: [],
-      selectedjob: "",
+      posts: [],
+      selectedPost: "",
       newJobid: "",
       newTitle: "",
       newCompany: "",
@@ -147,20 +137,26 @@ export default {
   },
   firestore() {
     return {
-      jobs: db.collection("jobs"),
-      job_apply: db.collection("job_apply"),
-      users: db.collection("users"),
+      posts: db.collection("jobs"),
     };
   },
   methods: {
-    deletejob: function(job) {
-      this.$firestore.jobs.doc(job[".key"]).delete();
+    deletePost: function(post) {
+      this.$firestore.posts.doc(post[".key"]).delete();
     },
-    // editjob: function(job) {
+    // editPost: function(post) {
 
     // },
-    sendInfo(job) {
-      this.selectedjob = job;
+    //working
+    sendInfo(post) { 
+      console.log(post)
+      this.newJobid = post.id
+      this.newTitle = post.title;
+      this.newCompany = post.company;
+      this.newDescription = post.description;
+      this.newSalary = post.salary;
+      this.selectedPost = post;
+      
     },
   },
 };
@@ -183,7 +179,7 @@ export default {
   margin-right: auto;
 }
 
-.card-job {
+.card-post {
   width: 800px;
   position: relative;
   margin-left: 50%;
