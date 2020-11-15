@@ -46,7 +46,7 @@
 
       <br />
       <b-button variant="outline-success" @click="addPost">
-        Add Post
+        Add
       </b-button>
     </b-card>
     <br />
