@@ -17,9 +17,9 @@
             <md-table-cell>{{ job.description }}</md-table-cell>
             <md-table-cell>{{ job.salary }}</md-table-cell>
             <md-table-cell>
-                <b-button variant="outline-info" @click="sendInfo(job)" v-b-modal.modal-xl="'job'">List Applicants</b-button>
-                &nbsp;
-                <b-button variant="outline-primary" @click="sendInfo(job)" v-b-modal.modal-xl="'edit'">Edit</b-button>
+                <!-- <b-button variant="outline-info" @click="sendInfo(job)" v-b-modal.modal-xl="'job'">List Applicants</b-button> -->
+                <!-- &nbsp;
+                <b-button variant="outline-primary" @click="sendInfo(job)" v-b-modal.modal-xl="'edit'">Edit</b-button> -->
                 &nbsp;
                 <b-button variant="outline-danger" @click="deletejob(job)">
                     Remove
