@@ -1,8 +1,23 @@
-# hololike-crud
+# Job Hunt Web
 
-## Project setup
+## Attention
 ```
-yarn install
+Please be aware that this project was created using *Yarn*, please follow the project setup guide to properly install and starts using
+In case you want to use node instead of yarn, please delete *yarn.lock* and then run *npm install*
+```
+
+## Project setup, installing neccessary components
+
+```
+1. Install [NodeJS](https://nodejs.org/en/)
+
+2. After installing, open your command promt or powershell and type *npm* to test if it's run yet
+
+3. Install [Yarn](https://yarnpkg.com/getting-started/install)
+
+4. After installing, open your command promt or powershell and type *yarn* to test if it's run yet
+
+5. Open up CMD, Powershell or using the terminal of VS Code in the project folder and run *yarn install* to install all of the latest packages
 ```
 
 ### Compiles and hot-reloads for development
